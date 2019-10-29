@@ -1,0 +1,69 @@
+---
+title: "Class_10_29"
+author: "Elizabeth Guo"
+date: "10/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyr)
+library(readr)
+library(purrr)
+library(tibble)
+library(stringr)
+library(forcats)
+library(moderndive)
+library(infer)
+library(googlesheets4)
+library(fs)
+library(scales)
+library(gt)
+library(tidyverse)
+```
+
+
+```{r}
+sheets_deauth()
+
+sampling <- read_sheet("1cgP-e6THVfiW5TJ95QhX3jkNxKvc8Sicp9k_BkSRd2I") %>% 
+  mutate(red_proportion = red/25) %>% 
+  drop_na()
+
+  ggplot(sampling, aes(x = red_proportion)) +
+    geom_histogram(binwidth = .04, col = "white") + 
+    labs(title = "Distribution of Proportion of Red Beads Found in Group of 25 Beads", 
+         x = "Proportion of Red Beads") 
+```
+
+
+```{r}
+sheets_deauth()
+
+trains <- read_sheet("1QV7o63fiZdNtMtLQfdwREapf8eYDjpfSRX0dgfNrB8A")
+```
+
+```{r}
+urn <- tibble(bead = c(rep("Red", 2000), rep("White", 8000)))
+
+
+```
+
+prop_crimson_graph <- bowl %>%
+  rep_sample_n(size = 25, reps = 5000) %>% 
+  group_by(replicate) %>% 
+  summarize(crimson = sum(bead == "crimson")) %>% 
+  mutate(prop_crimson = crimson / 25)
+
+  # I used rep_sample_n in order to simulate repeating the action of drawing 25 times. 
+
+  ggplot(prop_crimson_graph, aes(x = prop_crimson)) + geom_histogram(binwidth = .05) + 
+    labs(title = "Distirbution of Proportion of Crimson Beads Found in Group of 25 Beads",
+         x = "Proportion of Crimson Beads") +
+    theme_light()
+  
+  # This is my ggplot with appropriate labels. I also changed the theme color. 
+
+
+
+
