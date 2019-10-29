@@ -23,30 +23,43 @@ library(tidyverse)
 ```
 
 
-```{r}
+```{r, message= FALSE}
 sheets_deauth()
 
 sampling <- read_sheet("1cgP-e6THVfiW5TJ95QhX3jkNxKvc8Sicp9k_BkSRd2I") %>% 
   mutate(red_proportion = red/25) %>% 
   drop_na()
 
-  ggplot(sampling, aes(x = red_proportion)) +
+OG <-  ggplot(sampling, aes(x = red_proportion)) +
     geom_histogram(binwidth = .04, col = "white") + 
     labs(title = "Distribution of Proportion of Red Beads Found in Group of 25 Beads", 
          x = "Proportion of Red Beads") 
+OG
 ```
 
 
-```{r}
+```{r, message=FALSE}
 sheets_deauth()
 
 trains <- read_sheet("1QV7o63fiZdNtMtLQfdwREapf8eYDjpfSRX0dgfNrB8A")
 ```
 
-```{r}
+```{r, message= FALSE}
 urn <- tibble(bead = c(rep("Red", 2000), rep("White", 8000)))
 
 
+prop_red <- urn %>%
+  rep_sample_n(size = 25, reps = 1000, replace = TRUE) %>% 
+  group_by(replicate) %>% 
+  summarize(red = sum(bead == "Red")) %>% 
+  mutate(prop_red = red / 25)
+
+
+P <- ggplot(prop_red, aes(x = prop_red)) + geom_histogram(binwidth = .04, col = "white") + 
+    labs(title = "RED",
+         x = "Proportion of Red Beads",
+         y = "Count")
+P
 ```
 
 prop_crimson_graph <- bowl %>%
